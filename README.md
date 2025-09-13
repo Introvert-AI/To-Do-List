@@ -13,7 +13,7 @@ Installation & Cara Menjalankan
 
 Clone repository:
 -git clone https://github.com/Introvert-AI/To-Do-List.git
--cd 
+-cd To-Do-List
 
 Install dependencies:
 -pip install -r requirements.txt
@@ -34,11 +34,12 @@ Built with Python and Streamlit, this app is ideal for learning basic frontend c
 Installation & How to Run
 
 Clone the repository:
--git clone <URL_REPO>
--cd <FOLDER_NAME>
+-git clone https://github.com/Introvert-AI/To-Do-List.git
+-cd To-Do-List
 
 Install dependencies:
 -pip install -r requirements.txt
 
 Run the app:
+
 -streamlit run app.py
