@@ -44,8 +44,3 @@ Install dependencies:
 
 Run the app:
 - streamlit run app.py
-
-foto/photo
-## Screenshot
-
-![Todo List Screenshot](images/Screenshot%202025-09-15%20111641.png)
