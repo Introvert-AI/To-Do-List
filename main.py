@@ -1,8 +1,8 @@
-from backend import init_state, tambah_tugas, hapus_tugas
+from backend import init_db, tambah_tugas, tampilkan_tugas, ubah_status, update_tugas, hapus_tugas
 import streamlit as st
 
 # Inisialisasi default
-init_state()
+init_db()
 
 st.markdown("<h1 style=' text-align: center;'> To-Do List </h1>", unsafe_allow_html=True)
 
@@ -12,22 +12,46 @@ with st.form("b"):
     tambah = st.form_submit_button("Tambah")
 
 if tambah:
-    if not tambah_tugas(tugas_baru):
+    tugas = tugas_baru
+    status = "belum selesai"
+    if tambah_tugas(tugas, status):
+        st.success("Berhasil")
+    else:
         st.warning("Tugas sudah ada atau kosong")
 
-st.write("📋 Daftar Tugas:")
+st.markdown("<h3 style=' text-align: center;'>📋 Daftar Tugas 📋</h1>",unsafe_allow_html=True)
+tugas_list = tampilkan_tugas()
 
-# Loop daftar tugas + bikin tombol hapus
-for i, tugas in enumerate(st.session_state.daftar_tugas):
-    col1, col2 = st.columns([4, 1])
+if "edit_id" not in st.session_state:
+    st.session_state.edit_id = None
+    
+for t in tugas_list:
+    id_tugas, tugas, status = t
+    col1, col2, col3, col4= st.columns([3, 1,1,1])
     with col1:
-        st.write(f"- {tugas}")
+        if st.session_state.edit_id == id_tugas:
+            nama_baru = st.text_input("Nama tugas",value=tugas, key=f"input_{id_tugas}")
+            if st.button("Simpan",key=f"simpan_{id_tugas}"):
+                update_tugas(nama_baru,id_tugas)
+                st.session_state.edit_id = None
+                st.rerun()
+            if st.button("Batal", key=f"batal_{id_tugas}"):
+                st.session_state.edit_id = None
+                st.rerun
+        else:
+            st.write(f"{tugas} - ({status})")
     with col2:
-        if st.button("❌", key=f"hapus_{i}"):
-            hapus_tugas(i)
+        if st.button("Ubah", key=f"ubah_{id_tugas}"):
+            st.session_state.edit_id = id_tugas
+            st.rerun()
+                    
+    with col3:
+        if st.button("Toggle", key=f"toggle_{id_tugas}"):
+            ubah_status(id_tugas)
+            st.rerun()
+    with col4:
+        if st.button("❌", key=f"hapus_{id_tugas}"):
+            hapus_tugas(id_tugas)
+            st.rerun()
+        
 
-# Tombol hapus semua
-st.button("Hapus Semua", on_click=lambda: st.session_state.update({"daftar_tugas": []}))
-
-with st.expander("Lihat ini"):
-    st.warning("Tekan tombol ini jika ingin mereset semua kegiatan")
