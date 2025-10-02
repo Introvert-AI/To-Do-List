@@ -1,1 +1,1 @@
-Streamlit, sqlite3, fastapi, requests, bcrypt, jwt, pydantic, datetime
+streamlit, fastapi, requests, bcrypt, JyJWT, pydantic
