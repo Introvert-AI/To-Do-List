@@ -1,0 +1,6 @@
+streamlit
+fastapi 
+requests 
+bcrypt 
+PyJWT 
+pydantic
